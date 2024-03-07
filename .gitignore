@@ -1,1 +1,4 @@
 /venv
+/backend/.env
+/backend/leadgen/__pycache__
+/backend/leadgen_server/__pycache__
