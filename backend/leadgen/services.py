@@ -38,6 +38,7 @@ def add_user_service(name, email, role):
     user = User(name=name, email=email, password=password, user_role=role)
     user.set_password(user.password)
     user.save()
+    return UserSerializer(user).data
 
 
 def edit_user_service(id, data):

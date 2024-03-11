@@ -50,12 +50,13 @@ class AddUserView(APIView):
     def post(self, request):
         try:
             name, email, role = (
-                request.data.get(key) for key in ("name", "email", "role")
+                request.data.get(key) for key in ("name", "email", "user_role")
             )
-            services.add_user_service(name, email, role)
+            data = services.add_user_service(name, email, role)
             return custom_response(
                 success=True,
                 message="Successfully added user",
+                data=data,
                 status=200,
             )
         except Exception as err:

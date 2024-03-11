@@ -13,6 +13,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { useNavigate } from "react-router-dom";
+import { Link } from "@mui/material";
 
 export default function MenuAppBar() {
   const [auth, setAuth] = React.useState(true);
@@ -60,14 +61,16 @@ export default function MenuAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
+          <Link
             variant="h6"
-            component="div"
+            underline="none"
+            color="inherit"
             sx={{ flexGrow: 1 }}
-            onClick={() => navigate("/home")}
+            // onClick={() => navigate("/home")}
+            href="/home"
           >
             LeadGen
-          </Typography>
+          </Link>
           {auth && (
             <div>
               <IconButton

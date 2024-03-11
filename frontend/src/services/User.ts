@@ -32,7 +32,7 @@ export const editUser = async (id: any, payload: any) => {
 
 export const deleteUser = async (id: any) => {
   try {
-    const response = await axios.put(`${baseURL}/delete-user/${id}/`);
+    const response = await axios.delete(`${baseURL}/delete-user/${id}/`);
     if (response.data?.success) {
       return { data: response?.data?.message };
     } else {

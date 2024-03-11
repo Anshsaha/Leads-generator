@@ -1,7 +1,16 @@
-import { Box, Button, Grid } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+} from "@mui/material";
 import NavBar from "./NavBar";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import { getAllUsers } from "../services/User";
+import { deleteUser, getAllUsers } from "../services/User";
 import CustomMenuOption from "../utils/CustomActionButton";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -22,10 +31,13 @@ export default function DataTable() {
 
   const options = ["Edit", "Delete"];
   const [users, setUsers] = useState([]);
+  const [deleteUserId, setDeleteUserId] = useState(null);
+  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleActions = (value: string, row: any) => {
     if (value === "Edit") navigate("/edit-user", { state: { row } });
+    else if (value === "Delete") handleDeleteUser(row.id);
   };
 
   const columns: GridColDef[] = [
@@ -52,6 +64,27 @@ export default function DataTable() {
 
   const handleAddUser = () => {
     navigate("/add-user");
+  };
+
+  const handleDeleteUser = (userId: any) => {
+    setDeleteUserId(userId);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    const { data, error }: any = await deleteUser(deleteUserId);
+    if (error) {
+      toast.error(error);
+    } else {
+      setDeleteDialogOpen(false);
+      toast.success(data);
+      getUsersList();
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteUserId(null);
+    setDeleteDialogOpen(false);
   };
 
   const getUsersList = async () => {
@@ -95,6 +128,37 @@ export default function DataTable() {
           }}
         />
       </Box>
+      <Dialog
+        open={isDeleteDialogOpen}
+        onClose={handleCancelDelete}
+        aria-labelledby="delete-dialog-title"
+        aria-describedby="delete-dialog-description"
+        fullWidth
+      >
+        <DialogTitle id="delete-dialog-title">Confirm Delete</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="delete-dialog-description">
+            Are you sure you want to delete this user? This can't be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={handleCancelDelete}
+            color="primary"
+            variant="contained"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleConfirmDelete}
+            color="primary"
+            variant="contained"
+            autoFocus
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
