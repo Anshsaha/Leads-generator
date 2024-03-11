@@ -1,6 +1,7 @@
 from leadgen_server import settings
 from .serializers import UserSerializer
 from .models import User
+from utils.utils import create_random_password
 import jwt
 
 
@@ -30,3 +31,18 @@ def get_user_service(user_id):
 def get_all_users_service():
     users = User.objects.all()
     return UserSerializer(users, many=True).data
+
+
+def add_user_service(name, email, role):
+    password = "12345678"
+    user = User(name=name, email=email, password=password, user_role=role)
+    user.set_password(user.password)
+    user.save()
+
+
+def edit_user_service(id, data):
+    User.objects.filter(id=id).update(**data)
+
+
+def delete_user_service(id):
+    User.objects.get(id=id).delete()
