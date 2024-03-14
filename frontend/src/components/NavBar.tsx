@@ -14,12 +14,16 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { useNavigate } from "react-router-dom";
 import { Link } from "@mui/material";
+import { jwtDecode } from "jwt-decode";
 
 export default function MenuAppBar() {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [openDrawer, setOpenDrawer] = React.useState(false);
   const navigate = useNavigate();
+
+  const token: any = localStorage.getItem("token");
+  const user: any = jwtDecode(token);
 
   // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   //   setAuth(event.target.checked);
@@ -42,6 +46,16 @@ export default function MenuAppBar() {
     setOpenDrawer(open);
   };
 
+  const handleGenerateOrgs = () => {
+    toggleDrawer(false);
+    navigate("/search-organizations");
+  };
+
+  const handleGenerateLeads = () => {
+    toggleDrawer(false);
+    // navigate("/search-leads");
+  };
+
   const handleUsers = () => {
     toggleDrawer(false);
     navigate("/users");
@@ -49,7 +63,11 @@ export default function MenuAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar color="secondary" position="static">
+      <AppBar
+        color="secondary"
+        position="static"
+        sx={{ backgroundColor: "#4032AF" }}
+      >
         <Toolbar>
           <IconButton
             size="large"
@@ -57,7 +75,7 @@ export default function MenuAppBar() {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
-            onClick={toggleDrawer(true)} // Open drawer on click
+            onClick={toggleDrawer(true)}
           >
             <MenuIcon />
           </IconButton>
@@ -66,22 +84,17 @@ export default function MenuAppBar() {
             underline="none"
             color="inherit"
             sx={{ flexGrow: 1 }}
-            // onClick={() => navigate("/home")}
             href="/home"
           >
             LeadGen
           </Link>
           {auth && (
             <div>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
+              <IconButton color="inherit" onClick={handleMenu}>
+                {user.name
+                  .split(" ")
+                  .map((n: any) => n[0])
+                  .join("")}
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -111,6 +124,8 @@ export default function MenuAppBar() {
         sx={{
           "& .MuiDrawer-paper": {
             width: 200,
+            backgroundColor: "#7E6FFF",
+            color: "#FFFFFF",
           },
         }}
         open={openDrawer}
@@ -122,11 +137,14 @@ export default function MenuAppBar() {
           </Typography>
         </Box>
         <List>
-          <ListItem button onClick={toggleDrawer(false)}>
+          <ListItem button onClick={handleGenerateOrgs}>
             <ListItemText primary="Generate Organizations" />
           </ListItem>
           <ListItem button onClick={toggleDrawer(false)}>
             <ListItemText primary="Generate Leads" />
+          </ListItem>
+          <ListItem button>
+            <ListItemText primary="Results" />
           </ListItem>
           <ListItem button onClick={handleUsers}>
             <ListItemText primary="Users" />

@@ -11,7 +11,7 @@ const Profile = () => {
       <NavBar />
       <Box display="flex" alignItems="center" marginLeft={30} marginTop={10}>
         <AccountBoxIcon
-          sx={{ color: "#00000", fontSize: "200px", marginRight: "20px" }}
+          sx={{ color: "#4032AF", fontSize: "200px", marginRight: "20px" }}
         />
         <Box>
           <Typography marginBottom={2} fontWeight="bold">

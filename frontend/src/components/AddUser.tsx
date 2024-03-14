@@ -73,6 +73,7 @@ export default function SimpleContainer() {
   };
 
   const handleRoleChange = (event: SelectChangeEvent) => {
+    event.preventDefault();
     setRole(event.target.value as string);
   };
 
@@ -134,10 +135,6 @@ export default function SimpleContainer() {
                   width: "90%",
                   marginLeft: 4,
                 }}
-                // inputProps={{
-                //   name: "role",
-                //   id: "role",
-                // }}
               >
                 {roles &&
                   roles.map((item: any) => {

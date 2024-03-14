@@ -3,6 +3,8 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <NavBar />
@@ -18,16 +20,30 @@ const Home = () => {
         >
           Let's get started...
         </Typography>
-        {/* <Stack  spacing={2}> */}
         <Button
-          sx={{ marginRight: 2 }}
+          sx={{
+            marginRight: 2,
+            backgroundColor: "#4032AF",
+            "&:hover": {
+              backgroundColor: "#4032AF",
+            },
+          }}
           size="large"
           variant="contained"
-          color="secondary"
+          onClick={() => navigate("/search-organizations")}
         >
           SEARCH ORGANIZATIONS
         </Button>
-        <Button size="large" variant="contained">
+        <Button
+          size="large"
+          variant="contained"
+          sx={{
+            backgroundColor: "#5542FF",
+            "&:hover": {
+              backgroundColor: "#5542FF", // Custom hover color
+            },
+          }}
+        >
           SEARCH FOR LEADS
         </Button>
         {/* </Stack> */}

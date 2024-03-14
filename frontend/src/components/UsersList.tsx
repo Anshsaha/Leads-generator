@@ -9,7 +9,7 @@ import {
   Grid,
 } from "@mui/material";
 import NavBar from "./NavBar";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { deleteUser, getAllUsers } from "../services/User";
 import CustomMenuOption from "../utils/CustomActionButton";
 import { useEffect, useState } from "react";
@@ -104,7 +104,15 @@ export default function DataTable() {
     <>
       <NavBar />
       <Button
-        sx={{ float: "right", marginRight: 10, marginTop: 4 }}
+        sx={{
+          float: "right",
+          marginRight: 10,
+          marginTop: 4,
+          backgroundColor: "#4032AF",
+          "&:hover": {
+            backgroundColor: "#4032AF",
+          },
+        }}
         variant="contained"
         onClick={handleAddUser}
       >
