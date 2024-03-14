@@ -47,3 +47,31 @@ def edit_user_service(id, data):
 
 def delete_user_service(id):
     User.objects.get(id=id).delete()
+
+
+def search_orgs_service(data):
+    if data["industries"] == [] or data["locations"] == []:
+        raise Exception("Please fill the mandatory fields")
+    if data["employee_size_from"] and data["employee_size_to"]:
+        if (
+            data["employee_size_from"] > data["employee_size_to"]
+            or type(data["employee_size_from"]) != int
+            or type(data["employee_size_to"]) != int
+        ):
+            raise Exception("Employee range is not appropriate!")
+        else:
+            data["employee_range"] = [
+                f'{data["employee_size_from"]}-{data["employee_size_to"]}'
+            ]
+    else:
+        data["employee_range"] = []
+    task = {
+        "api_key": settings.APOLLO_KEY,
+        "page": 1,
+        "per_page": 100,
+        "organization_num_employees_ranges": data["employee_range"],
+        "organization_locations": data["locations"],
+        "q_organization_keyword_tags": data["industries"],
+    }
+    task_data = {key: value for key, value in task.items() if task[key] is not None}
+    print(task_data)

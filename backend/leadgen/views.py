@@ -87,3 +87,16 @@ class DeleteUserView(APIView):
             )
         except Exception as err:
             return custom_response(message=str(err))
+
+
+class SearchOrgsView(APIView):
+    def post(self, request):
+        try:
+            services.search_orgs_service(request.data.get("data"))
+            return custom_response(
+                success=True,
+                message="Successfully fetched orgs",
+                status=200,
+            )
+        except Exception as err:
+            return custom_response(message=str(err))

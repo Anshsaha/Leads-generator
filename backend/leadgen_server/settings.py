@@ -136,3 +136,5 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+APOLLO_KEY = os.getenv("APOLLO_AUTH_KEY")

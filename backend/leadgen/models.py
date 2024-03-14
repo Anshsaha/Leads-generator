@@ -4,6 +4,8 @@ from django.contrib.auth.models import (
     AbstractBaseUser,
     PermissionsMixin,
 )
+from django.contrib.postgres.fields import ArrayField
+import uuid
 
 
 class UserManager(BaseUserManager):
@@ -32,3 +34,39 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+class Usage(models.Model):
+    id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False, unique=True
+    )
+    industries = ArrayField(models.CharField(null=True), null=True)
+    locations = ArrayField(models.CharField(null=True), null=True)
+    employee_range = models.CharField(null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        db_table = "usage"
+
+    def __str__(self):
+        return self.id
+
+
+class OrganizationData(models.Model):
+    id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False, unique=True
+    )
+    name = models.CharField(null=True)
+    website_url = models.CharField(null=True)
+    linkedin_url = models.CharField(null=True)
+    twitter_url = models.CharField(null=True)
+    founded_year = models.IntegerField(null=True)
+    location = models.CharField(null=True)
+    usage = models.ForeignKey(Usage, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        db_table = "organization_data"
+
+    def __str__(self):
+        return self.name
