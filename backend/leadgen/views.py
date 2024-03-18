@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from . import services
 from utils.utils import custom_response
+from utils.custom_permissions import CustomAuth
 
 
 class UserLoginView(APIView):
@@ -19,6 +20,8 @@ class UserLoginView(APIView):
 
 
 class GetUserView(APIView):
+    permission_classes = [CustomAuth]
+
     def get(self, request, id):
         try:
             user = services.get_user_service(id)
@@ -90,12 +93,34 @@ class DeleteUserView(APIView):
 
 
 class SearchOrgsView(APIView):
+    permission_classes = [CustomAuth]
+
     def post(self, request):
         try:
-            services.search_orgs_service(request.data.get("data"))
+            services.search_orgs_service(
+                request.data.get("data"), request.token_data.get("user_id")
+            )
             return custom_response(
                 success=True,
                 message="Successfully fetched orgs",
+                status=200,
+            )
+        except Exception as err:
+            return custom_response(message=str(err))
+
+
+class GetUsageDataView(APIView):
+    permission_classes = [CustomAuth]
+
+    def get(self, request, keyword):
+        try:
+            usage = services.get_usage_data_service(
+                keyword, request.token_data.get("user_id")
+            )
+            return custom_response(
+                success=True,
+                message="Successfully fetched usage",
+                data=usage,
                 status=200,
             )
         except Exception as err:

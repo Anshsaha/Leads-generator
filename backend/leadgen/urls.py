@@ -9,4 +9,5 @@ urlpatterns = [
     path("edit-user/<str:id>/", views.EditUserView.as_view()),
     path("delete-user/<str:id>/", views.DeleteUserView.as_view()),
     path("search-organizations/", views.SearchOrgsView.as_view()),
+    path("get-results/<str:keyword>/", views.GetUsageDataView.as_view()),
 ]

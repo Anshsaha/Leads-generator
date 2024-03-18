@@ -8,6 +8,11 @@ from django.contrib.postgres.fields import ArrayField
 import uuid
 
 
+class KeywordTypes(models.TextChoices):
+    ORGANIZATION = "ORGANIZATION"
+    LEADS = "LEADS"
+
+
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
@@ -24,6 +29,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=100, null=True)
     email = models.EmailField(unique=True)
     user_role = models.CharField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    last_modified_at = models.DateTimeField(auto_now=True, null=True)
     objects = UserManager()
 
     USERNAME_FIELD = "email"
@@ -43,7 +50,12 @@ class Usage(models.Model):
     industries = ArrayField(models.CharField(null=True), null=True)
     locations = ArrayField(models.CharField(null=True), null=True)
     employee_range = models.CharField(null=True)
+    designations = ArrayField(models.CharField(null=True), null=True)
+    keyword = models.CharField(choices=KeywordTypes.choices, max_length=100, null=True)
+    status = models.CharField(null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    last_modified_at = models.DateTimeField(auto_now=True, null=True)
 
     class Meta:
         db_table = "usage"
@@ -64,6 +76,8 @@ class OrganizationData(models.Model):
     location = models.CharField(null=True)
     usage = models.ForeignKey(Usage, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    last_modified_at = models.DateTimeField(auto_now=True, null=True)
 
     class Meta:
         db_table = "organization_data"

@@ -1,6 +1,6 @@
 from leadgen_server import settings
-from .serializers import UserSerializer
-from .models import User
+from .serializers import UserSerializer, UsageSerializer
+from .models import User, Usage, OrganizationData
 from utils.utils import create_random_password
 import jwt
 
@@ -49,7 +49,7 @@ def delete_user_service(id):
     User.objects.get(id=id).delete()
 
 
-def search_orgs_service(data):
+def search_orgs_service(data, user_id):
     if data["industries"] == [] or data["locations"] == []:
         raise Exception("Please fill the mandatory fields")
     if data["employee_size_from"] and data["employee_size_to"]:
@@ -60,11 +60,18 @@ def search_orgs_service(data):
         ):
             raise Exception("Employee range is not appropriate!")
         else:
-            data["employee_range"] = [
-                f'{data["employee_size_from"]}-{data["employee_size_to"]}'
-            ]
+            employee_range = f'{data["employee_size_from"]}-{data["employee_size_to"]}'
+            data["employee_range"] = [employee_range]
     else:
         data["employee_range"] = []
+
+    usage = Usage.objects.create(
+        industries=data["industries"],
+        locations=data["locations"],
+        employee_range=employee_range,
+        user_id=user_id,
+    )
+
     task = {
         "api_key": settings.APOLLO_KEY,
         "page": 1,
@@ -75,3 +82,11 @@ def search_orgs_service(data):
     }
     task_data = {key: value for key, value in task.items() if task[key] is not None}
     print(task_data)
+
+
+def get_usage_data_service(keyword, user_id):
+    if keyword == "organization":
+        usages = Usage.objects.filter(user_id=user_id, keyword="organization")
+    else:
+        usages = Usage.objects.filter(user_id=user_id, keyword="leads")
+    return UsageSerializer(usages, many=True).data
