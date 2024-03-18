@@ -124,6 +124,7 @@ export default function DataTable() {
           showCellVerticalBorder
           columns={columns}
           showColumnVerticalBorder
+          disableRowSelectionOnClick
           initialState={{
             pagination: {
               paginationModel: { page: 0, pageSize: 10 },

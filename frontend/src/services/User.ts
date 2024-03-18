@@ -1,10 +1,11 @@
-import axios, { CanceledError } from "axios";
+import { CanceledError } from "axios";
+import axiosInstance from "../utils/TokenInterceptor";
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 export const addUser = async (payload: any) => {
   try {
-    const response = await axios.post(`${baseURL}/add-user/`, payload);
+    const response = await axiosInstance.post(`${baseURL}/add-user/`, payload);
     if (response.data?.success) {
       return { data: response?.data?.message };
     } else {
@@ -18,7 +19,10 @@ export const addUser = async (payload: any) => {
 
 export const editUser = async (id: any, payload: any) => {
   try {
-    const response = await axios.put(`${baseURL}/edit-user/${id}/`, payload);
+    const response = await axiosInstance.put(
+      `${baseURL}/edit-user/${id}/`,
+      payload
+    );
     if (response.data?.success) {
       return { data: response?.data?.message };
     } else {
@@ -32,7 +36,9 @@ export const editUser = async (id: any, payload: any) => {
 
 export const deleteUser = async (id: any) => {
   try {
-    const response = await axios.delete(`${baseURL}/delete-user/${id}/`);
+    const response = await axiosInstance.delete(
+      `${baseURL}/delete-user/${id}/`
+    );
     if (response.data?.success) {
       return { data: response?.data?.message };
     } else {
@@ -46,7 +52,7 @@ export const deleteUser = async (id: any) => {
 
 export const getAllUsers = async () => {
   try {
-    const response: any = await axios.get(`${baseURL}/get-all-users/`);
+    const response: any = await axiosInstance.get(`${baseURL}/get-all-users/`);
     if (response.data?.success) {
       return { data: response?.data?.data };
     } else {

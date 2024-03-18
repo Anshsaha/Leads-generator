@@ -3,14 +3,13 @@ import axiosInstance from "../utils/TokenInterceptor";
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 
-export const searchOrgs = async (payload: any) => {
+export const getResults = async (keyword: any) => {
   try {
-    const response = await axiosInstance.post(
-      `${baseURL}/search-organizations/`,
-      payload
+    const response = await axiosInstance.get(
+      `${baseURL}/get-results/${keyword}/`
     );
     if (response.data?.success) {
-      return { data: response?.data?.message };
+      return { data: response?.data?.data };
     } else {
       return { error: response?.data?.message };
     }

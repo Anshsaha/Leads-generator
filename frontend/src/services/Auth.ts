@@ -1,10 +1,11 @@
-import axios, { CanceledError } from "axios";
+import { CanceledError } from "axios";
+import axiosInstance from "../utils/TokenInterceptor";
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 export const Login = async (user: any) => {
   try {
-    const response = await axios.post(`${baseURL}/login/`, user);
+    const response = await axiosInstance.post(`${baseURL}/login/`, user);
     if (response.data?.success) {
       const token = response.data.data;
       localStorage.setItem("token", JSON.stringify(token));

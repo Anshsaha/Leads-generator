@@ -5,6 +5,7 @@ import Profile from "../components/Profile";
 import Users from "../components/UsersList";
 import AddUser from "../components/AddUser";
 import SearchOrgs from "../components/SearchOrgs";
+import Results from "../components/Results";
 
 const routes = () => {
   return (
@@ -17,6 +18,7 @@ const routes = () => {
         <Route path="/add-user" Component={AddUser} />
         <Route path="/edit-user" Component={AddUser} />
         <Route path="/search-organizations" Component={SearchOrgs} />
+        <Route path="/results" Component={Results} />
       </Routes>
     </BrowserRouter>
   );

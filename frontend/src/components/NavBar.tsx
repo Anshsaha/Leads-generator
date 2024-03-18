@@ -61,6 +61,11 @@ export default function MenuAppBar() {
     navigate("/users");
   };
 
+  const handleResults = () => {
+    toggleDrawer(false);
+    navigate("/results");
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -143,7 +148,7 @@ export default function MenuAppBar() {
           <ListItem button onClick={toggleDrawer(false)}>
             <ListItemText primary="Generate Leads" />
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={handleResults}>
             <ListItemText primary="Results" />
           </ListItem>
           <ListItem button onClick={handleUsers}>
