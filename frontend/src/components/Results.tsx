@@ -113,6 +113,10 @@ const Results = () => {
   const [value, setValue] = React.useState(0);
   const navigate = useNavigate();
 
+  const handleCellClick = (params: any) => {
+    navigate("/org-results", { state: params.row });
+  };
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     if (newValue === 0) {
       getResultsList("organization");
@@ -174,12 +178,14 @@ const Results = () => {
             }}
             pageSizeOptions={[5]}
             disableRowSelectionOnClick
+            onRowClick={handleCellClick}
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <DataGrid
             rows={results}
             columns={leadsColumns}
+            getRowHeight={() => "auto"}
             initialState={{
               pagination: {
                 paginationModel: {

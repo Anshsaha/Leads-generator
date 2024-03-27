@@ -6,6 +6,7 @@ import Users from "../components/UsersList";
 import AddUser from "../components/AddUser";
 import SearchOrgs from "../components/SearchOrgs";
 import Results from "../components/Results";
+import ResultData from "../components/ResultData";
 
 const routes = () => {
   return (
@@ -19,6 +20,7 @@ const routes = () => {
         <Route path="/edit-user" Component={AddUser} />
         <Route path="/search-organizations" Component={SearchOrgs} />
         <Route path="/results" Component={Results} />
+        <Route path="/org-results" Component={ResultData} />
       </Routes>
     </BrowserRouter>
   );
