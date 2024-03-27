@@ -84,3 +84,26 @@ class OrganizationData(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class LeadsData(models.Model):
+    id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False, unique=True
+    )
+    name = models.CharField(null=True)
+    designation = models.CharField(null=True)
+    linkedin_url = models.CharField(null=True)
+    twitter_url = models.CharField(null=True)
+    org_name = models.CharField(null=True)
+    org_url = models.CharField(null=True)
+    location = models.CharField(null=True)
+    usage = models.ForeignKey(Usage, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    last_modified_at = models.DateTimeField(auto_now=True, null=True)
+
+    class Meta:
+        db_table = "leads_data"
+
+    def __str__(self):
+        return self.name

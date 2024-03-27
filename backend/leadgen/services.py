@@ -1,6 +1,11 @@
 from leadgen_server import settings
-from .serializers import UserSerializer, UsageSerializer
-from .models import User, Usage, OrganizationData
+from .serializers import (
+    UserSerializer,
+    UsageSerializer,
+    OrganizationDataSerializer,
+    LeadsDataSerializer,
+)
+from .models import User, Usage, OrganizationData, LeadsData
 from utils.utils import create_random_password
 import jwt
 
@@ -61,15 +66,17 @@ def search_orgs_service(data, user_id):
             raise Exception("Employee range is not appropriate!")
         else:
             employee_range = f'{data["employee_size_from"]}-{data["employee_size_to"]}'
-            data["employee_range"] = [employee_range]
     else:
-        data["employee_range"] = []
+        employee_range = "N/A"
 
-    usage = Usage.objects.create(
+    data["employee_range"] = [employee_range]
+    Usage.objects.create(
         industries=data["industries"],
         locations=data["locations"],
         employee_range=employee_range,
         user_id=user_id,
+        keyword="organization",
+        status="In Progress",
     )
 
     task = {
@@ -90,3 +97,12 @@ def get_usage_data_service(keyword, user_id):
     else:
         usages = Usage.objects.filter(user_id=user_id, keyword="leads")
     return UsageSerializer(usages, many=True).data
+
+
+def get_result_data_service(keyword, id):
+    if keyword == "organization":
+        org_results = OrganizationData.objects.filter(usage_id=id)
+        return OrganizationDataSerializer(org_results, many=True).data
+    else:
+        leads_result = LeadsData.objects.filter(usage_id=id)
+        return LeadsDataSerializer(leads_result, many=True).data

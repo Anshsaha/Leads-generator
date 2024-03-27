@@ -10,4 +10,5 @@ urlpatterns = [
     path("delete-user/<str:id>/", views.DeleteUserView.as_view()),
     path("search-organizations/", views.SearchOrgsView.as_view()),
     path("get-results/<str:keyword>/", views.GetUsageDataView.as_view()),
+    path("get-result/<str:keyword>/<str:id>/", views.GetResultView.as_view()),
 ]

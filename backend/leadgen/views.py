@@ -125,3 +125,19 @@ class GetUsageDataView(APIView):
             )
         except Exception as err:
             return custom_response(message=str(err))
+
+
+class GetResultView(APIView):
+    permission_classes = [CustomAuth]
+
+    def get(self, request, keyword, id):
+        try:
+            result = services.get_result_data_service(keyword, id)
+            return custom_response(
+                success=True,
+                message="Successfully fetched result",
+                data=result,
+                status=200,
+            )
+        except Exception as err:
+            return custom_response(message=str(err))
