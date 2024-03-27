@@ -1,123 +1,150 @@
-import { VisibilityOff, Visibility } from "@mui/icons-material";
-import {
-  Container,
-  TextField,
-  Box,
-  Button,
-  IconButton,
-  InputAdornment,
-  Typography,
-} from "@mui/material";
-import { jwtDecode } from "jwt-decode";
-import { useEffect, useState } from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
 import { Login } from "../services/Auth";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { FormEvent, useState } from "react";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const token: any = localStorage.getItem("token");
-  //   if (token) {
-  //     console.log(token, "444444444444444");
-  //     const userInfo: any = jwtDecode(token);
-  //     console.log(userInfo);
-  //   }
-  // }, []);
-
-  const handleTogglePasswordVisibility = () => {
-    {
-      showPassword ? setShowPassword(false) : setShowPassword(true);
-    }
-  };
-
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   const response = Login(data);
-  // };
-
-  const handleLogin = async () => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const user = {
       email: email?.trim(),
       password: password?.trim(),
     };
     const { data, error }: any = await Login(user);
     if (error) {
-      toast.error("Email or password incorrect!");
+      toast.error("Email or Password incorrect!");
     } else {
-      toast.success(`Login Successful!`);
+      toast.success(data);
       navigate("/home");
     }
   };
 
   return (
-    <>
-      <Typography variant="h1" padding={8} align="center">
-        Leads-Generator
-      </Typography>
-      <Container maxWidth="sm" sx={{ marginTop: 9, fontWeight: "bold" }}>
-        Login
+    <Grid container component="main" sx={{ height: "100vh" }}>
+      <Grid item xs={12} sm={8} md={6} component={Paper}>
         <Box
-          sx={{ marginBottom: 2, marginTop: 2 }}
-          // component="form"
-          // onSubmit={handleSubmit}
+          sx={{
+            my: 20,
+            // mx: 2,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
         >
-          <TextField
-            className="email"
-            label="Email"
-            variant="filled"
-            color="secondary"
-            fullWidth
-            InputLabelProps={{ style: { color: "white" } }}
-            InputProps={{
-              style: { color: "white" },
-            }}
-            sx={{ backgroundColor: "GrayText" }}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <TextField
-            className="password"
-            margin="normal"
-            label="Password"
-            variant="filled"
-            fullWidth
-            color="secondary"
-            type={showPassword ? "text" : "password"}
-            InputLabelProps={{ style: { color: "white" } }}
-            InputProps={{
-              style: { color: "white" },
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={handleTogglePasswordVisibility}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            sx={{ backgroundColor: "GrayText" }}
-            onChange={(p) => setPassword(p.target.value)}
-          />
-          <Button
-            variant="contained"
-            color="secondary"
-            fullWidth
-            sx={{
-              marginTop: 1,
-            }}
-            onClick={handleLogin}
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <Box
+            component="form"
+            noValidate
+            sx={{ mt: 1 }}
+            onSubmit={handleSubmit}
           >
-            Submit
-          </Button>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              sx={{
+                marginBottom: 4,
+                "& .MuiInputLabel-root": {
+                  color: "#4032AF",
+                },
+                "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#4032AF",
+                },
+              }}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              autoComplete="current-password"
+              sx={{
+                marginBottom: 4,
+                "& .MuiInputLabel-root": {
+                  color: "#4032AF",
+                },
+                "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#4032AF",
+                },
+              }}
+              onChange={(p) => setPassword(p.target.value)}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{
+                mt: 3,
+                mb: 2,
+                backgroundColor: "#4032AF",
+                "&:hover": {
+                  backgroundColor: "#4032AF",
+                },
+              }}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              {/* <Grid item></Grid> */}
+            </Grid>
+          </Box>
         </Box>
-      </Container>
-    </>
+      </Grid>
+      <Grid
+        item
+        xs={false}
+        sm={4}
+        md={6}
+        sx={{
+          // backgroundImage: "url(https://source.unsplash.com/random?wallpapers)",
+          backgroundRepeat: "no-repeat",
+          // backgroundColor: (t) =>
+          //   t.palette.mode === "light"
+          //     ? t.palette.grey[50]
+          //     : t.palette.grey[900],
+          backgroundColor: "#4032AF",
+          backgroundSize: "cover",
+          // backgroundPosition: "center",
+        }}
+      >
+        <Typography variant="h1" fontWeight="bold" padding={8} color="white">
+          LEADGEN
+        </Typography>
+        <Typography variant="h3" fontWeight="400" padding={8} color="white">
+          Retrieve organizations and leads data according to your requirement,
+          from around the world.
+        </Typography>
+      </Grid>
+    </Grid>
   );
 };
