@@ -44,11 +44,11 @@ export const LoginPage = () => {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <Avatar sx={{ m: 1, bgcolor: "#4032AF" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign in to LeadGen
           </Typography>
           <Box
             component="form"
@@ -65,7 +65,7 @@ export const LoginPage = () => {
               autoComplete="email"
               autoFocus
               sx={{
-                marginBottom: 4,
+                marginBottom: 1,
                 "& .MuiInputLabel-root": {
                   color: "#4032AF",
                 },
@@ -84,7 +84,7 @@ export const LoginPage = () => {
               type="password"
               autoComplete="current-password"
               sx={{
-                marginBottom: 4,
+                marginBottom: 1,
                 "& .MuiInputLabel-root": {
                   color: "#4032AF",
                 },
@@ -111,7 +111,7 @@ export const LoginPage = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" color="#4032AF">
                   Forgot password?
                 </Link>
               </Grid>

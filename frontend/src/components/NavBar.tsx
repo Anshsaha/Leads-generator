@@ -5,7 +5,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Drawer from "@mui/material/Drawer";
@@ -67,9 +66,9 @@ export default function MenuAppBar() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box>
       <AppBar
-        color="secondary"
+        // color="secondary"
         position="static"
         sx={{ backgroundColor: "#4032AF" }}
       >
@@ -86,12 +85,13 @@ export default function MenuAppBar() {
           </IconButton>
           <Link
             variant="h6"
+            fontWeight="bold"
             underline="none"
             color="inherit"
             sx={{ flexGrow: 1 }}
             href="/home"
           >
-            LeadGen
+            LEADGEN
           </Link>
           {auth && (
             <div>
@@ -138,7 +138,7 @@ export default function MenuAppBar() {
       >
         <Box border="ButtonFace">
           <Typography sx={{ marginTop: 1 }} fontWeight="bold" padding={2}>
-            LeadGen
+            LEADGEN
           </Typography>
         </Box>
         <List>
@@ -147,6 +147,9 @@ export default function MenuAppBar() {
           </ListItem>
           <ListItem button onClick={toggleDrawer(false)}>
             <ListItemText primary="Generate Leads" />
+          </ListItem>
+          <ListItem button onClick={toggleDrawer(false)}>
+            <ListItemText primary="Send Bulk Emails" />
           </ListItem>
           <ListItem button onClick={handleResults}>
             <ListItemText primary="Results" />
