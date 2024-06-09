@@ -55,8 +55,6 @@ def delete_user_service(id):
 
 
 def search_orgs_service(data, user_id):
-    if data["industries"] == [] or data["locations"] == []:
-        raise Exception("Please fill the mandatory fields")
     if data["employee_size_from"] and data["employee_size_to"]:
         if (
             data["employee_size_from"] > data["employee_size_to"]
